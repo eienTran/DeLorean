@@ -1,12 +1,12 @@
-<script lang="ts">
+<script>
   // value coming into App.svelte that updates state will be in an array,
   // we need to update our state by adding new elements into the existing array
   import State from './State.svelte';
-  export let snapshot: Array<any> = [];
-  let activeIndex: number = 0;
+  export let snapshot = [];
+  let activeIndex = 0;
   $: compState = snapshot[activeIndex];
 
-  let mainToBgPort: any;
+  let mainToBgPort;
 
   // connect devtool to inspected webpage
   function connect() {
@@ -19,12 +19,12 @@
         snapshot = snapshot;
       }
     });
-    let connectButton: any = document.getElementById('connectButton');
+    let connectButton = document.getElementById('connectButton');
     connectButton.style.visibility = 'hidden';
   }
 
   // injects logic into inspected webpage's DOM
-  function updateScript(): any {
+  function updateScript() {
     mainToBgPort.postMessage({ body: 'updateScript', script: bundleResource });
   }
 
@@ -36,7 +36,7 @@
     mainToBgPort.postMessage({ body: 'updateCtx', ctxIndex: i });
   };
 
-  let bundleResource: any;
+  let bundleResource;
   chrome.devtools.inspectedWindow.getResources((resources) => {
     // search for bundle file, probably first thing in resources array with type 'script'
     for (let i = 0; i < resources.length; i++) {
